@@ -1,0 +1,11 @@
+.login_screen_button{
+ -fx-background-color: #282828;
+    -fx-border-color: #ea1438;
+    -fx-border-radius: 0;
+}
+.login_screen_field{
+    -fx-background-color: #282828;
+    -fx-border-color: #ea1438;
+    -fx-border-radius: 0;
+    -fx-text-fill: #ffffff;
+}

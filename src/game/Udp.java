@@ -18,12 +18,15 @@ public class Udp extends Thread {
     private Tcp tcp;
     private BlockingQueue<Hit> hitQueue;
 
-    public Udp(String url, int port_, Tcp tcp_, BlockingQueue<Hit> hitQueue_) throws SocketException, UnknownHostException {
+    public Udp(String url, int port_, Tcp tcp_, BlockingQueue<Hit> hitQueue_,Map<Short, Player> p, Map<Integer, Monster> m) throws SocketException, UnknownHostException {
         socket = new DatagramSocket();
         port = port_;
         tcp = tcp_;
         hitQueue = hitQueue_;
         address = InetAddress.getByName(url);
+        players=p;
+        monsters=m;
+        socket.setSoTimeout(1000);
     }
 
     public void send(String message) throws IOException {
@@ -38,20 +41,21 @@ public class Udp extends Thread {
     }
 
     public void run() {
-        //what i need?
-        //receive
         byte[] buf = new byte[256];
         run = true;
         while (run) {
             DatagramPacket packet = new DatagramPacket(buf, buf.length);
             try {
                 socket.receive(packet);
-            } catch (IOException e) {
+            }catch (SocketTimeoutException e) {
+                continue;
+            }
+            catch (IOException e) {
                 e.printStackTrace();
             }
             String received = new String(
                     packet.getData(), 0, packet.getLength());
-            //System.out.print(received);
+            System.out.print(received);
             //interpret please
             String[] cmd = received.split(" ");
             switch (cmd[0]) {

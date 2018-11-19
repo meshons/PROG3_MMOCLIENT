@@ -39,7 +39,10 @@ public class Tcp extends Thread {
         outgoing.write(message.getBytes());
         String re = incoming.readLine();
         System.out.println(re);
-        return false;
+        String[] splitted = String.valueOf(re).split(" ");
+        if (splitted[0].equals("nope"))
+            return false;
+        return true;//todo wtf???
     }
 
     public User Login(String username, String password) throws NoSuchAlgorithmException, IOException {
