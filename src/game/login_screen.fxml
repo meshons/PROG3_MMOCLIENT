@@ -50,12 +50,12 @@
                                                 <Insets top="50.0" />
                                             </VBox.margin>
                                             <children>
-                                                <TextField fx:id="login_id" onKeyPressed="#enterPressedLogin" promptText="type your username here" styleClass="login_screen_field" stylesheets="@login_screen.css" GridPane.columnIndex="1">
+                                                <TextField fx:id="login_id" onKeyPressed="#enterPressedLogin" promptText="type your username here" styleClass="login_screen_field" GridPane.columnIndex="1">
                                                     <font>
                                                         <Font name="Love Letters" size="16.0" />
                                                     </font>
                                                 </TextField>
-                                                <PasswordField fx:id="login_pw" onKeyPressed="#enterPressedLogin" promptText="type your password here" styleClass="login_screen_field" stylesheets="@login_screen.css" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                                <PasswordField fx:id="login_pw" onKeyPressed="#enterPressedLogin" promptText="type your password here" styleClass="login_screen_field" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                                     <font>
                                                         <Font name="Love Letters" size="16.0" />
                                                     </font>
@@ -72,7 +72,7 @@
                                                 </Text>
                                             </children>
                                         </GridPane>
-                                        <Button fx:id="login_button" mnemonicParsing="false" onAction="#login" onKeyPressed="#enterPressedLogin" styleClass="login_screen_button" stylesheets="@login_screen.css" text="Log me into the game!" textAlignment="CENTER" textFill="#1de10f">
+                                        <Button fx:id="login_button" mnemonicParsing="false" onAction="#login" onKeyPressed="#enterPressedLogin" styleClass="login_screen_button" text="Log me into the game!" textAlignment="CENTER" textFill="#1de10f">
                                             <font>
                                                 <Font name="Sho-CardCapsNF" size="24.0" />
                                             </font>
@@ -109,17 +109,17 @@
                                                 <Insets top="50.0" />
                                             </VBox.margin>
                                             <children>
-                                                <TextField fx:id="reg_id" onKeyPressed="#enterPressedReg" promptText="type your username here" styleClass="login_screen_field" stylesheets="@login_screen.css" GridPane.columnIndex="1">
+                                                <TextField fx:id="reg_id" onKeyPressed="#enterPressedReg" promptText="type your username here" styleClass="login_screen_field" GridPane.columnIndex="1">
                                                     <font>
                                                         <Font name="Love Letters" size="16.0" />
                                                     </font>
                                                 </TextField>
-                                                <PasswordField fx:id="reg_pw" onKeyPressed="#enterPressedReg" promptText="type your password here" styleClass="login_screen_field" stylesheets="@login_screen.css" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                                <PasswordField fx:id="reg_pw" onKeyPressed="#enterPressedReg" promptText="type your password here" styleClass="login_screen_field" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                                     <font>
                                                         <Font name="Love Letters" size="16.0" />
                                                     </font>
                                                 </PasswordField>
-                                                <PasswordField fx:id="reg_pw_re" onKeyPressed="#enterPressedReg" promptText="type your password here again" styleClass="login_screen_field" stylesheets="@login_screen.css" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                                <PasswordField fx:id="reg_pw_re" onKeyPressed="#enterPressedReg" promptText="type your password here again" styleClass="login_screen_field" GridPane.columnIndex="1" GridPane.rowIndex="2">
                                                     <font>
                                                         <Font name="Love Letters" size="16.0" />
                                                     </font>
@@ -141,7 +141,7 @@
                                                 </Text>
                                             </children>
                                         </GridPane>
-                                        <Button fx:id="reg_button" mnemonicParsing="false" onAction="#register" onKeyPressed="#enterPressedReg" styleClass="login_screen_button" stylesheets="@login_screen.css" text="Register me please!" textAlignment="CENTER" textFill="#1de10f">
+                                        <Button fx:id="reg_button" mnemonicParsing="false" onAction="#register" onKeyPressed="#enterPressedReg" styleClass="login_screen_button"  text="Register me please!" textAlignment="CENTER" textFill="#1de10f">
                                             <font>
                                                 <Font name="Sho-CardCapsNF" size="24.0" />
                                             </font>

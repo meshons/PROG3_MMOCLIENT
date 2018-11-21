@@ -14,6 +14,8 @@ import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.LinkedBlockingQueue;
+import javafx.scene.text.Font;
+import javafx.scene.text.TextAlignment;
 
 import javafx.scene.input.KeyCode;
 
@@ -32,6 +34,7 @@ public class Game extends Thread {
     private Stage stage;
     private Udp udp;
     private User user;
+    private long lastAction = 0;
 
     public Game(Canvas canvas_, Stage s, Udp udp_, User user_, boolean run_, Map<Short, Player> players_, Map<Integer, Monster> monsters_, BlockingQueue<Hit> hitQueue_, Player p) {
         canvas = canvas_;
@@ -51,45 +54,51 @@ public class Game extends Thread {
 
     private EventHandler<KeyEvent> keyPress = event -> {
         //todo make it better
-        System.out.println("Filtering out event " + event.getEventType());
-        try {
-            switch (event.getCode()) {
-                case W:
-                    udp.send(Command.create().add('M').add(user.getId()).
-                            add(user.getSecret()).add("N").getMessage());
-                    break;
-                case S:
-                    udp.send(Command.create().add('M').add(user.getId()).
-                            add(user.getSecret()).add("S").getMessage());
-                    break;
-                case D:
-                    udp.send(Command.create().add('M').add(user.getId()).
-                            add(user.getSecret()).add("E").getMessage());
-                    break;
-                case A:
-                    udp.send(Command.create().add('M').add(user.getId()).
-                            add(user.getSecret()).add("W").getMessage());
-                    break;
-                case SPACE:
-                    udp.send(Command.create().add('A').add(user.getId()).
-                            add(user.getSecret()).getMessage());
-                    break;
+
+            try {
+                switch (event.getCode()) {
+                    case W:
+                        udp.send(Command.create().add('M').add(user.getId()).
+                                add(user.getSecret()).add("N").getMessage());
+                        lastAction = System.currentTimeMillis();
+                        break;
+                    case S:
+                        udp.send(Command.create().add('M').add(user.getId()).
+                                add(user.getSecret()).add("S").getMessage());
+                        lastAction = System.currentTimeMillis();
+                        break;
+                    case D:
+                        udp.send(Command.create().add('M').add(user.getId()).
+                                add(user.getSecret()).add("E").getMessage());
+                        lastAction = System.currentTimeMillis();
+                        break;
+                    case A:
+                        udp.send(Command.create().add('M').add(user.getId()).
+                                add(user.getSecret()).add("W").getMessage());
+                        lastAction = System.currentTimeMillis();
+                        break;
+                    case SPACE:
+                        udp.send(Command.create().add('A').add(user.getId()).
+                                add(user.getSecret()).getMessage());
+                        lastAction = System.currentTimeMillis();
+                        break;
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
         event.consume();
     };
 
     private EventHandler<KeyEvent> keyRelease = event -> {
-        System.out.println("Filtering out event " + event.getEventType());
-        try {
-            udp.send(Command.create().add('S').add(user.getId()).
-                    add(user.getSecret()).getMessage());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        event.consume();
+            try {
+                udp.send(Command.create().add('S').add(user.getId()).
+                        add(user.getSecret()).getMessage());
+                lastAction = System.currentTimeMillis();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            event.consume();
     };
 
     public void run() {
@@ -98,20 +107,58 @@ public class Game extends Thread {
 
         final short w = 50;
         final short h = 50;
+        Font font1 =new Font("Bitstream Vera Sans Mono Bold", 16);
 
         stage.addEventFilter(KeyEvent.KEY_PRESSED, keyPress);
         stage.addEventFilter(KeyEvent.KEY_RELEASED, keyRelease);
-
-
-        int counter = 0;
         while (run) {
             //32+3 * 18+3
+            if(System.currentTimeMillis()-lastAction>30000) {
+                try {
+                    udp.send(Command.create().add('S').add(user.getId()).
+                            add(user.getSecret()).getMessage());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                lastAction=System.currentTimeMillis();
+            }
+
+            for (Map.Entry<Short, Player> entry : players.entrySet()) {
+                Player p = entry.getValue();
+                if (p.getAct() == Action.Move) {
+                    p.setAnimationpercent((double) (System.currentTimeMillis() - p.getActionstart()) / 250);
+                    switch (p.getDir()){
+                        case NORTH:
+                            p.setDy((double)p.getY() - p.getAnimationpercent());
+                            break;
+                        case SOUTH:
+                            p.setDy((double)p.getY() + p.getAnimationpercent());
+                            break;
+                        case EAST:
+                            p.setDx((double)p.getX() + p.getAnimationpercent());
+                            break;
+                        case WEST:
+                            p.setDx((double)p.getX() - p.getAnimationpercent());
+                            break;
+                    }
+                    if(p.getAnimationpercent()>1.0)
+                        p.setAnimationpercent(1.0);
+                }else if (p.getAct() == Action.Attack)
+                    p.setAnimationpercent((double) (System.currentTimeMillis() - p.getActionstart()) / 300);
+                else if(p.getAct()==Action.Move_animation){
+                    p.setAnimationpercent((double) (System.currentTimeMillis() - p.getActionstart()) / 250);
+                }
+                while(p.getAnimationpercent()>1.0)
+                    p.setAnimationpercent(p.getAnimationpercent()-1.0);
+            }
+
 
             //make game here please
             double x_offset = -75 + (((double) player.getX() - player.getDx()) * w);
             double y_offset = -75 + (((double) player.getY() - player.getDy()) * h);
             int starting_x = player.getX() - 17;
             int starting_y = player.getY() - 10;
+
 
             for (int y = 0; y < 22; ++y)
                 for (int x = 0; x < 36; ++x)
@@ -139,22 +186,24 @@ public class Game extends Thread {
 
             for (Map.Entry<Short, Player> entry : players.entrySet()) {
                 Player p = entry.getValue();
-                if ((p.getChanged() || player.getChanged()) && p != player && p.getX() >= starting_x && p.getX() <= starting_x + 35 && p.getY() >= starting_y && p.getY() <= starting_y + 21)
+                if (p != player && p.getX() >= starting_x && p.getX() <= starting_x + 35 && p.getY() >= starting_y && p.getY() <= starting_y + 21)
                     p.draw((p.getDx() - (double) starting_x) * w + x_offset //math need
                             , (p.getDy() - (double) starting_y) * h + y_offset //math need
                             , w, h, gc);
             }
 
             player.draw(775, 425, w, h, gc);
+            gc.setFill(Color.BLUE);
+            gc.setFont(font1);
+            gc.setTextAlign(TextAlignment.LEFT);
+            gc.fillText("x: "+ String.valueOf(player.getX())+", y: "+String.valueOf(player.getY()),5,21);
 
             try {
-                Thread.sleep(100);
+                Thread.sleep(16);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
-
-
         gc.drawImage(new Image(this.getClass().getResourceAsStream("/back.jpg")), 0, 0, 1600, 900);
 
     }

@@ -27,6 +27,8 @@ import java.io.IOException;
 import java.net.ConnectException;
 import java.net.URL;
 import java.security.NoSuchAlgorithmException;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.concurrent.BlockingQueue;
@@ -43,8 +45,8 @@ public class LoginScreen extends Thread {
     private User user;
     private Tcp tcp;
     private Udp udp;
-    private Map<Short, Player> players = new ConcurrentHashMap<>();
-    private Map<Integer, Monster> monsters = new ConcurrentHashMap<>();
+    private Map<Short, Player> players = Collections.synchronizedMap(new HashMap<>());
+    private Map<Integer, Monster> monsters = Collections.synchronizedMap(new HashMap<>());
     private BlockingQueue<Hit> hitQueue = new LinkedBlockingQueue<>();
     private AnchorPane parent;
     private Canvas canvas;
@@ -184,6 +186,7 @@ public class LoginScreen extends Thread {
 
             try {
                 g.join();
+
                 udp.stopit();
                 udp.join();
                 tcp.stopit();

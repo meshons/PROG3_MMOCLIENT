@@ -1,5 +1,6 @@
 package game;
 
+import javafx.animation.AnimationTimer;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.*;
 import javafx.application.Application;
@@ -45,6 +46,10 @@ public class Main extends Application {
     private int port;
     private LoginScreen ls;
 
+    private final long[] frameTimes = new long[100];
+    private int frameTimeIndex = 0 ;
+    private boolean arrayFilled = false ;
+
     @Override
     public void init(){
          serveraddr = "217.112.128.80";
@@ -55,22 +60,24 @@ public class Main extends Application {
     public void start(Stage primaryStage) {
         try {
             primaryStage.initStyle(StageStyle.UNDECORATED);
-
             primaryStage.getIcons().add(new Image(this.getClass().getResourceAsStream("/icon.png")));
             primaryStage.setTitle("super duper minimal MMO homework");
             primaryStage.setResizable(false);
             primaryStage.setHeight(900);
             primaryStage.setWidth(1600);
 
-            Font.loadFont(Main.class.getResource("/sho.ttf").toExternalForm(), 10);
-            Font.loadFont(Main.class.getResource("/lt.ttf").toExternalForm(), 10);
+            Font.loadFont(Main.class.getResource("/sho.ttf").toExternalForm(), 40);
+            Font.loadFont(Main.class.getResource("/lt.ttf").toExternalForm(), 40);
+            Font.loadFont(Main.class.getResource("/vmb.ttf").toExternalForm(), 40);
 
             Group root = new Group();
+
             Canvas canvas = new Canvas(1600, 900);
             root.resize(1600,900);
             GraphicsContext gc = canvas.getGraphicsContext2D();
             gc.drawImage(new Image(this.getClass().getResourceAsStream("/back.jpg")),0,0,1600,900);
             root.getChildren().add(canvas);
+            //root.getChildren().add(new StackPane(label));
 
             FXMLLoader loader = new FXMLLoader();
             AnchorPane NotAnAnchorPane =loader.load(this.getClass().getResourceAsStream("/login_screen.fxml"));

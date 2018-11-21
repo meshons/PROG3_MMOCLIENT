@@ -8,6 +8,7 @@ public class Monster {
     private int id;
     private short x,y;
     private int health;
+    private int basehealth;
     private Direction direction;
 
     public Monster(int id_,int hp_,short x_,short y_){
@@ -15,6 +16,7 @@ public class Monster {
         x=x_;
         y=y_;
         health=hp_;
+        basehealth=hp_;
     }
 
     public void update(String[] data){
@@ -46,5 +48,9 @@ public class Monster {
     public void draw(double x, double y, short w, short h, GraphicsContext gc){
         gc.setFill(Color.PAPAYAWHIP);
         gc.fillRect(x, y, w*2, h*2);
+        gc.setFill(Color.BLACK);
+        gc.fillRect(x+5, y+5,w*2-10, 16);
+        gc.setFill(Color.RED);
+        gc.fillRect(x+6, y+6,(w*2-12)*((double)health/basehealth), 14);
     }
 }

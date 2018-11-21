@@ -79,7 +79,7 @@ public class Tcp extends Thread {
             while (run) {
                 //recieve tcp and interpret it
                 String c = incoming.readLine();
-                if(c==null)continue;
+                if (c == null) continue;
                 if (!c.equals("p pingellekgeco "))
                     System.out.println(c);
                 String[] cmd = c.split(" ");
@@ -96,20 +96,22 @@ public class Tcp extends Thread {
                             break;
                         case "1":
                             if (cmd.length == 2) {
-                                players.remove(Short.parseShort(cmd[1]));
+                                if (players.containsKey(Short.parseShort(cmd[1])))
+                                    players.remove(Short.parseShort(cmd[1]));
                             }
                             break;
                         // monster spawn, kill
                         case "M":
                             if (cmd.length == 5) {
-                                if (monsters.containsKey(Integer.parseInt(cmd[2])))
+                                if (monsters.containsKey(Integer.parseInt(cmd[1])))
                                     monsters.remove(Integer.parseInt(cmd[1]));
                                 monsters.put(Integer.parseInt(cmd[1]), new Monster(Integer.parseInt(cmd[1]), Integer.parseInt(cmd[2]), Short.parseShort(cmd[3]), Short.parseShort(cmd[4])));
                             }
                             break;
                         case "K":
-                            if(cmd.length==2){
-                                monsters.remove(Integer.parseInt(cmd[1]));
+                            if (cmd.length == 2) {
+                                if (monsters.containsKey(Integer.parseInt(cmd[1])))
+                                    monsters.remove(Integer.parseInt(cmd[1]));
                             }
                             break;
                     }
