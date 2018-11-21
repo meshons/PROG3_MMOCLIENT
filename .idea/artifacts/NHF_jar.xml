@@ -1,0 +1,16 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="NHF:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/NHF_jar</output-path>
+    <root id="archive" name="NHF.jar">
+      <element id="module-output" name="NHF" />
+      <element id="extracted-dir" path="W:/felev3/commons-codec-1.11-bin/commons-codec-1.11.jar" path-in-jar="/" />
+      <element id="file-copy" path="$PROJECT_DIR$/icon.png" />
+      <element id="file-copy" path="$PROJECT_DIR$/back.jpg" />
+      <element id="file-copy" path="$PROJECT_DIR$/src/game/login_screen.fxml" />
+      <element id="file-copy" path="$PROJECT_DIR$/src/game/login_screen.css" />
+      <element id="file-copy" path="$PROJECT_DIR$/sho.ttf" />
+      <element id="file-copy" path="$PROJECT_DIR$/lt.ttf" />
+      <element id="library" level="application" name="commons-codec-1.11" />
+    </root>
+  </artifact>
+</component>

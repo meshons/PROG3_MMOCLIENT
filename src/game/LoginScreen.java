@@ -18,6 +18,10 @@ import javafx.scene.layout.VBox;
 import javafx.event.ActionEvent;
 import javafx.scene.input.MouseEvent;
 
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.KeyCode;
+
+
 import java.io.File;
 import java.io.IOException;
 import java.net.ConnectException;
@@ -30,7 +34,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.LinkedBlockingQueue;
 
 
-public class LoginScreen {
+public class LoginScreen extends Thread {
     private String serveraddr;
     private int port;
 
@@ -44,6 +48,8 @@ public class LoginScreen {
     private BlockingQueue<Hit> hitQueue = new LinkedBlockingQueue<>();
     private AnchorPane parent;
     private Canvas canvas;
+    private Game g;
+    private Stage stage;
 
     @FXML
     private TextField login_id;
@@ -72,22 +78,35 @@ public class LoginScreen {
     private void initialize() {
     }
 
-    public void setServerInfo(String addr, int port_, AnchorPane parent_, Canvas canvas_) throws IOException {
-        serveraddr=addr;
-        port=port_;
+    public void setServerInfo(String addr, int port_, AnchorPane parent_, Canvas canvas_,Stage s) throws IOException {
+        serveraddr = addr;
+        port = port_;
         setCon();
-        parent=parent_;
-        canvas=canvas_;
+        parent = parent_;
+        canvas = canvas_;
+        stage=s;
     }
 
     public LoginScreen() {
-        run=true;
+        run = true;
     }
 
 
     public void close() {
         //todo
-        run=false;
+        run = false;
+        if (g != null) g.stopit();
+    }
+
+    public void enterPressedLogin(KeyEvent event) throws InterruptedException, NoSuchAlgorithmException, IOException {
+        if(event.getCode() == KeyCode.ENTER) {
+            login();
+        }
+    }
+    public void enterPressedReg(KeyEvent event) throws InterruptedException, NoSuchAlgorithmException, IOException {
+        if(event.getCode() == KeyCode.ENTER) {
+            login();
+        }
     }
 
     public void login() throws IOException, NoSuchAlgorithmException, InterruptedException {
@@ -104,23 +123,6 @@ public class LoginScreen {
             return;
         }
         parent.setVisible(false);
-        tcp.start();
-        udp.start();
-        Game g = new Game(canvas,run,players,monsters,hitQueue);
-        g.start();
-
-        g.join();
-        udp.stopit();
-        udp.join();
-        tcp.stopit();
-        tcp.join();
-        tcp.Logout(user);
-        players.clear();
-        monsters.clear();
-        hitQueue.clear();
-
-        parent.setVisible(true);
-        setCon();
     }
 
     private void setCon() throws IOException {
@@ -137,7 +139,7 @@ public class LoginScreen {
         if (reg_pw.getText().equals(reg_pw_re.getText()))
             if (tcp.Registration(reg_id.getText(), reg_pw.getText())) {
                 message_box.setVisible(true);
-                message.setText("Registration was successful sir "+reg_id.getText()+ "!");
+                message.setText("Registration was successful sir " + reg_id.getText() + "!");
                 message.setOnAction((e) -> {
                     message_box.setVisible(false);
                 });
@@ -154,6 +156,47 @@ public class LoginScreen {
             message.setOnAction((e) -> {
                 message_box.setVisible(false);
             });
+        }
+    }
+
+    public void run() {
+        while (run) {
+            try {
+                while (user == null && run)
+                    Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            if(!run)
+                break;
+
+            tcp.start();
+            udp.start();
+            while (players.get(user.getId()) == null) {
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            g = new Game(canvas,stage,udp,user, run, players, monsters, hitQueue, players.get(user.getId()));
+            g.start();
+
+            try {
+                g.join();
+                udp.stopit();
+                udp.join();
+                tcp.stopit();
+                tcp.join();
+                tcp.Logout(user);
+                players.clear();
+                monsters.clear();
+                hitQueue.clear();
+                parent.setVisible(true);
+                setCon();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 

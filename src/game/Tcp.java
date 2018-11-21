@@ -21,7 +21,7 @@ public class Tcp extends Thread {
     private Map<Integer, Monster> monsters;
 
     public Tcp(String url, int port, Map<Short, Player> p, Map<Integer, Monster> m) throws IOException {
-        socket = new Socket(url, port);
+        socket = new Socket(url, port, null, 0);
         socket.setKeepAlive(true);
         incoming = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
@@ -65,6 +65,10 @@ public class Tcp extends Thread {
         outgoing.write(message.getBytes(StandardCharsets.UTF_8));
     }
 
+    public void send(String message) throws IOException {
+        outgoing.write(message.getBytes());
+    }
+
     public void stopit() {
         run = false;
     }
@@ -90,7 +94,7 @@ public class Tcp extends Thread {
                                 players.put(Short.parseShort(cmd[2]), new Player(cmd[1], Short.parseShort(cmd[2]), Short.parseShort(cmd[3]), Short.parseShort(cmd[4])));
                             }
                             break;
-                        case "2":
+                        case "1":
                             if (cmd.length == 2) {
                                 players.remove(Short.parseShort(cmd[1]));
                             }

@@ -20,7 +20,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.text.FontWeight;
 import javafx.scene.paint.Color;
-
+import javafx.stage.StageStyle;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -54,38 +54,34 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
         try {
-            primaryStage.getIcons().add(new Image("file:icon.png"));
+            primaryStage.initStyle(StageStyle.UNDECORATED);
+
+            primaryStage.getIcons().add(new Image(this.getClass().getResourceAsStream("/icon.png")));
             primaryStage.setTitle("super duper minimal MMO homework");
             primaryStage.setResizable(false);
+            primaryStage.setHeight(900);
+            primaryStage.setWidth(1600);
+
+            Font.loadFont(Main.class.getResource("/sho.ttf").toExternalForm(), 10);
+            Font.loadFont(Main.class.getResource("/lt.ttf").toExternalForm(), 10);
 
             Group root = new Group();
             Canvas canvas = new Canvas(1600, 900);
+            root.resize(1600,900);
             GraphicsContext gc = canvas.getGraphicsContext2D();
-            drawShapes(gc);
+            gc.drawImage(new Image(this.getClass().getResourceAsStream("/back.jpg")),0,0,1600,900);
             root.getChildren().add(canvas);
 
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(new File("src/game/login_screen.fxml").toURI().toURL());
-            AnchorPane NotAnAnchorPane = loader.<AnchorPane>load();
+            AnchorPane NotAnAnchorPane =loader.load(this.getClass().getResourceAsStream("/login_screen.fxml"));
             ls = loader.getController();
             root.getChildren().add(NotAnAnchorPane);
 
-            primaryStage.setScene(new Scene(root));
+            Scene sc = new Scene(root,1600,900);
+            primaryStage.setScene(sc);
             primaryStage.show();
-            ls.setServerInfo(serveraddr,port,NotAnAnchorPane,canvas);
-            //System.out.println("teszt");
-            //tcp.Registration("testuser","tesadaszt");
-            //user = tcp.Login("testuser", "tesadaszt");
-            //tcp.start();
-            //System.out.println(user.getName());
-            //System.out.println(user.getSecret());
-            //udp.send(Command.create().add('S').add(user.getId()).add(user.getSecret()).getMessage());
-            //while(players.isEmpty())
-            //    Thread.sleep(15);
-            //udp.start();
-
-            //infinity loop here please
-
+            ls.setServerInfo(serveraddr,port,NotAnAnchorPane,canvas,primaryStage);
+            ls.start();
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println(e.toString());
@@ -93,12 +89,9 @@ public class Main extends Application {
     }
 
     @Override
-    public void stop() throws IOException, InterruptedException {
+    public void stop() throws  InterruptedException {
         ls.close();
-    }
-
-    private void drawShapes(GraphicsContext gc) throws IOException {
-        gc.drawImage(new Image(new FileInputStream("back.jpg")),0,0,1600,900);
+        ls.join();
     }
 
 }

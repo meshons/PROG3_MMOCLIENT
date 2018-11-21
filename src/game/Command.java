@@ -22,6 +22,7 @@ public class Command {
         return this;
     }
 
+
     public String getMessage(){
         message+='\n';
         return message;

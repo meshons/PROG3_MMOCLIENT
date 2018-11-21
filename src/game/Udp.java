@@ -19,7 +19,7 @@ public class Udp extends Thread {
     private BlockingQueue<Hit> hitQueue;
 
     public Udp(String url, int port_, Tcp tcp_, BlockingQueue<Hit> hitQueue_,Map<Short, Player> p, Map<Integer, Monster> m) throws SocketException, UnknownHostException {
-        socket = new DatagramSocket();
+        socket = new DatagramSocket(0);
         port = port_;
         tcp = tcp_;
         hitQueue = hitQueue_;
@@ -55,17 +55,31 @@ public class Udp extends Thread {
             }
             String received = new String(
                     packet.getData(), 0, packet.getLength());
-            System.out.print(received);
+            //System.out.print(received);
             //interpret please
             String[] cmd = received.split(" ");
             switch (cmd[0]) {
                 case "X":
-                    //todo check if not exit and get that from the server
+                    if( players.get(Short.parseShort(cmd[1]))!=null)
                     players.get(Short.parseShort(cmd[1])).update(cmd);
+                    else {
+                        try {
+                            tcp.send(Command.create().add('P').add(cmd[1]).getMessage());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
                     break;
                 case "Y":
-                    //todo check if not exist and get that from the server
+                    if( monsters.get(Integer.parseInt(cmd[1]))!=null)
                     monsters.get(Integer.parseInt(cmd[1])).update(cmd);
+                    else {
+                        try {
+                            tcp.send(Command.create().add('M').add(cmd[1]).getMessage());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
                     break;
                 case "H":
                     //todo hit

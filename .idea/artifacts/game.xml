@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="game">
+    <output-path>$PROJECT_DIR$/out/artifacts/game</output-path>
+    <root id="archive" name="game.jar">
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="module-output" name="NHF" />
+      <element id="library" level="application" name="commons-codec-1.11" />
+      <element id="file-copy" path="$PROJECT_DIR$/back.jpg" />
+      <element id="file-copy" path="$PROJECT_DIR$/icon.png" />
+    </root>
+  </artifact>
+</component>

@@ -1,5 +1,8 @@
 package game;
 
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
+
 public class Monster {
     //todo
     private int id;
@@ -30,5 +33,18 @@ public class Monster {
                 direction=Direction.WEST;
                 break;
         }
+    }
+
+    public short getX() {
+        return x;
+    }
+
+    public short getY() {
+        return y;
+    }
+
+    public void draw(double x, double y, short w, short h, GraphicsContext gc){
+        gc.setFill(Color.PAPAYAWHIP);
+        gc.fillRect(x, y, w*2, h*2);
     }
 }
