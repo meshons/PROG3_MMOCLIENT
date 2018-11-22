@@ -12,6 +12,27 @@
       <element id="file-copy" path="$PROJECT_DIR$/lt.ttf" />
       <element id="library" level="application" name="commons-codec-1.11" />
       <element id="file-copy" path="$PROJECT_DIR$/vmb.ttf" />
+      <element id="file-copy" path="$PROJECT_DIR$/fu.png" />
+      <element id="file-copy" path="$PROJECT_DIR$/ko.png" />
+      <element id="file-copy" path="$PROJECT_DIR$/viz.png" />
+      <element id="file-copy" path="$PROJECT_DIR$/fu2.png" />
+      <element id="file-copy" path="$PROJECT_DIR$/monster.png" />
+      <element id="file-copy" path="$PROJECT_DIR$/playerE.png" />
+      <element id="file-copy" path="$PROJECT_DIR$/playerN.png" />
+      <element id="file-copy" path="$PROJECT_DIR$/playerS.png" />
+      <element id="file-copy" path="$PROJECT_DIR$/playerW.png" />
+      <element id="directory" name="assets">
+        <element id="directory" name="leg">
+          <element id="file-copy" path="$PROJECT_DIR$/assets/leg/leftE.png" />
+          <element id="file-copy" path="$PROJECT_DIR$/assets/leg/leftN.png" />
+          <element id="file-copy" path="$PROJECT_DIR$/assets/leg/leftS.png" />
+          <element id="file-copy" path="$PROJECT_DIR$/assets/leg/leftW.png" />
+          <element id="file-copy" path="$PROJECT_DIR$/assets/leg/rightE.png" />
+          <element id="file-copy" path="$PROJECT_DIR$/assets/leg/rightN.png" />
+          <element id="file-copy" path="$PROJECT_DIR$/assets/leg/rightS.png" />
+          <element id="file-copy" path="$PROJECT_DIR$/assets/leg/rightW.png" />
+        </element>
+      </element>
     </root>
   </artifact>
 </component>

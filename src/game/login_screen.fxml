@@ -10,16 +10,16 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1600.0" stylesheets="@login_screen.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="game.LoginScreen">
+<AnchorPane stylesheets="@login_screen.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="game.LoginScreen">
     <children>
-        <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1600.0">
+        <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <top>
                 <Text fill="#ff3939" stroke="#801b1b" strokeType="OUTSIDE" strokeWidth="0.0" text="super duper minimal MMO homework" BorderPane.alignment="CENTER">
                     <font>
-                        <Font name="Sho-CardCapsNF" size="75.0" />
+                        <Font name="Sho-CardCapsNF" size="60.0" />
                     </font>
                     <BorderPane.margin>
-                        <Insets bottom="20.0" top="80.0" />
+                        <Insets bottom="50.0" top="80.0" />
                     </BorderPane.margin>
                 </Text>
             </top>
@@ -141,7 +141,7 @@
                                                 </Text>
                                             </children>
                                         </GridPane>
-                                        <Button fx:id="reg_button" mnemonicParsing="false" onAction="#register" onKeyPressed="#enterPressedReg" styleClass="login_screen_button"  text="Register me please!" textAlignment="CENTER" textFill="#1de10f">
+                                        <Button fx:id="reg_button" mnemonicParsing="false" onAction="#register" onKeyPressed="#enterPressedReg" styleClass="login_screen_button" text="Register me please!" textAlignment="CENTER" textFill="#1de10f">
                                             <font>
                                                 <Font name="Sho-CardCapsNF" size="24.0" />
                                             </font>
@@ -159,7 +159,7 @@
                 </HBox>
             </center>
         </BorderPane>
-      <VBox fx:id="message_box" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1600.0" style="-fx-opacity: 0.95; -fx-background-color: #828282;" visible="false">
+      <VBox fx:id="message_box" alignment="CENTER" style="-fx-opacity: 0.95; -fx-background-color: #828282;" visible="false" AnchorPane.bottomAnchor="586.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="880.0" AnchorPane.topAnchor="0.0">
          <children>
             <Button fx:id="message" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="200.0" prefWidth="600.0" styleClass="login_screen_button" text="Button" textFill="WHITE">
                <font>

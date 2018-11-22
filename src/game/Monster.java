@@ -2,6 +2,7 @@ package game;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import javafx.scene.image.Image;
 
 public class Monster {
     //todo
@@ -10,6 +11,7 @@ public class Monster {
     private int health;
     private int basehealth;
     private Direction direction;
+    private static Image monster = new Image(Monster.class.getResourceAsStream("/monster.png"));
 
     public Monster(int id_,int hp_,short x_,short y_){
         id=id_;
@@ -46,11 +48,11 @@ public class Monster {
     }
 
     public void draw(double x, double y, short w, short h, GraphicsContext gc){
-        gc.setFill(Color.PAPAYAWHIP);
-        gc.fillRect(x, y, w*2, h*2);
+        gc.drawImage(monster,x+5,y,w*2-10,h*2);
+        //healthbar
         gc.setFill(Color.BLACK);
-        gc.fillRect(x+5, y+5,w*2-10, 16);
+        gc.fillRect(x+5, y-18,w*2-10, 14);
         gc.setFill(Color.RED);
-        gc.fillRect(x+6, y+6,(w*2-12)*((double)health/basehealth), 14);
+        gc.fillRect(x+6, y-17,(w*2-12)*((double)health/basehealth), 12);
     }
 }

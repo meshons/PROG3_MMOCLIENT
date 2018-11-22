@@ -1,5 +1,7 @@
 package game;
 
+import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -134,6 +136,9 @@ public class LoginScreen extends Thread {
         } catch (ConnectException e) {
             message_box.setVisible(true);
             message.setText("No server connection! Try again later please :D");
+            message.setOnAction((ef) -> {
+                Platform.exit();
+            });
         }
     }
 
@@ -182,6 +187,7 @@ public class LoginScreen extends Thread {
                 }
             }
             g = new Game(canvas,stage,udp,user, run, players, monsters, hitQueue, players.get(user.getId()));
+           g.setDaemon(true);
             g.start();
 
             try {
