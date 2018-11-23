@@ -1,13 +1,11 @@
 package game;
 
 import java.io.*;
-import java.util.Arrays;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Map;
-import java.util.Vector;
 
 import org.apache.commons.codec.binary.Hex;
 

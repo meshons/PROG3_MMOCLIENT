@@ -1,7 +1,5 @@
 package game;
 
-import javafx.animation.AnimationTimer;
-import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.application.Application;
 import javafx.scene.Group;

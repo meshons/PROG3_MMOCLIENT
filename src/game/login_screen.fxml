@@ -159,7 +159,7 @@
                 </HBox>
             </center>
         </BorderPane>
-      <VBox fx:id="message_box" alignment="CENTER" style="-fx-opacity: 0.95; -fx-background-color: #828282;" visible="false" AnchorPane.bottomAnchor="586.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="880.0" AnchorPane.topAnchor="0.0">
+      <VBox fx:id="message_box" alignment="CENTER" style="-fx-opacity: 0.95; -fx-background-color: #828282;" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <Button fx:id="message" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="200.0" prefWidth="600.0" styleClass="login_screen_button" text="Button" textFill="WHITE">
                <font>

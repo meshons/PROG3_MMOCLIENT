@@ -32,6 +32,10 @@
           <element id="file-copy" path="$PROJECT_DIR$/assets/leg/rightS.png" />
           <element id="file-copy" path="$PROJECT_DIR$/assets/leg/rightW.png" />
         </element>
+        <element id="file-copy" path="$PROJECT_DIR$/assets/pizzaE.png" />
+        <element id="file-copy" path="$PROJECT_DIR$/assets/pizzaN.png" />
+        <element id="file-copy" path="$PROJECT_DIR$/assets/pizzaS.png" />
+        <element id="file-copy" path="$PROJECT_DIR$/assets/pizzaW.png" />
       </element>
     </root>
   </artifact>

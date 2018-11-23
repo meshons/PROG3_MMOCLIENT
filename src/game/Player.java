@@ -4,7 +4,6 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
-import javafx.scene.text.FontWeight;
 import javafx.scene.image.Image;
 
 public class Player {
@@ -42,6 +41,13 @@ public class Player {
                     new Image(Monster.class.getResourceAsStream("/assets/leg/rightE.png")),
                     new Image(Monster.class.getResourceAsStream("/assets/leg/rightS.png")),
                     new Image(Monster.class.getResourceAsStream("/assets/leg/rightW.png"))
+            };
+    private static Image[] pizza =
+            {
+                    new Image(Monster.class.getResourceAsStream("/assets/pizzaN.png")),
+                    new Image(Monster.class.getResourceAsStream("/assets/pizzaE.png")),
+                    new Image(Monster.class.getResourceAsStream("/assets/pizzaS.png")),
+                    new Image(Monster.class.getResourceAsStream("/assets/pizzaW.png"))
             };
 
     public Player(String name_, short id_, short x_, short y_) {
@@ -116,8 +122,6 @@ public class Player {
     }
 
     public void draw(double x, double y, short w, short h, GraphicsContext gc) {
-        //todo a lot
-
         switch (act) {
             case Stand:
                 switch (dir) {
@@ -147,7 +151,6 @@ public class Player {
             case Move_animation:
                 switch (dir) {
                     case NORTH:
-                        //todo anim?
                         if (animationpercent <= 0.5) {
                             gc.drawImage(left[0], x + 4, y + 20 - ((animationpercent) * w / 2), w - 10, h);
                             gc.drawImage(right[0], x + 6, y + 20 - (double) w / 4 + ((animationpercent) * w / 2), w - 10, h);
@@ -190,30 +193,31 @@ public class Player {
                 }
                 break;
             case Attack:
+                //todo pizza
                 gc.setFill(Color.BLUE);
                 switch (dir) {
                     case NORTH:
                         gc.drawImage(left[0], x + 4, y + 14, w - 10, h);
                         gc.drawImage(right[0], x + 6, y + 14, w - 10, h);
-                        gc.fillOval(x+(double)w/2-5,y-5-((animationpercent) * h * 0.8),10,10);
+                        gc.drawImage(pizza[0],x+(double)w/2-15,y-30-5-((animationpercent) * h * 0.8),30,30);
                         gc.drawImage(player[0], x + 6, y, w - 12, h);
                         break;
                     case SOUTH:
                         gc.drawImage(left[2], x + 6, y - 14, w - 10, h);
                         gc.drawImage(right[2], x + 4, y - 14, w - 10, h);
-                        gc.fillOval(x+(double)w/2-5,y+w+5+((animationpercent) * h * 0.8),10,10);
+                        gc.drawImage(pizza[2],x+(double)w/2-15,y+w+5+((animationpercent) * h * 0.8),30,30);
                         gc.drawImage(player[2], x + 6, y, w - 12, h);
                         break;
                     case EAST:
                         gc.drawImage(left[1], x - 14, y + 4, w, h - 10);
                         gc.drawImage(right[1], x - 14, y + 6, w, h - 10);
-                        gc.fillOval(x+h+5+((animationpercent) * w * 0.8),y+(double)h/2-5,10,10);
+                        gc.drawImage(pizza[3],x+h+5+((animationpercent) * w * 0.8),y+(double)h/2-15, 30,30);
                         gc.drawImage(player[1], x, y + 6, w, h - 12);
                         break;
                     case WEST:
                         gc.drawImage(left[3], x + 14, y + 6, w, h - 10);
                         gc.drawImage(right[3], x + 14, y + 4, w, h - 10);
-                        gc.fillOval(x-5-((animationpercent) * w * 0.8),y+(double)h/2-5,10,10);
+                        gc.drawImage(pizza[1],x-30-5-((animationpercent) * w * 0.8),y+(double)h/2-15,30,30);
                         gc.drawImage(player[3], x, y + 6, w, h - 12);
                         break;
                 }

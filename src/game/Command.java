@@ -1,21 +1,38 @@
 package game;
 
-import java.util.ArrayList;
-
+/**
+ * Egy parancsot előállító segédosztály UDP-hez és TCP-hez
+ */
 public class Command {
+    /**
+     * Az üzenet
+     */
     private String message = "";
+
+    /** Hozzáadja az üzenethez a value értékét és egy szóközt
+     * @param value a hozzáadandó String
+     * @return visszatér saját magával
+     */
     public Command add(String value){
         message+=value;
         message+=' ';
         return this;
     }
 
+    /** Hozzáadja az üzenethez a value karaktert és egy szóközt
+     * @param value a hozzáadandó karakter
+     * @return visszatér saját magával
+     */
     public Command add(char value){
         message+=value;
         message+=' ';
         return this;
     }
 
+    /**
+     * @param value
+     * @return
+     */
     public Command add(short value){
         message+=Short.toString(value);
         message+=' ';
@@ -30,9 +47,5 @@ public class Command {
 
     public static Command create(){
         return new Command();
-    }
-
-    public static String[] get(){
-        return new String[12];
     }
 }

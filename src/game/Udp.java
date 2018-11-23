@@ -1,12 +1,10 @@
 package game;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.StringReader;
 import java.net.*;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
-import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Udp extends Thread {
     private DatagramSocket socket;
@@ -16,16 +14,16 @@ public class Udp extends Thread {
     private Map<Short, Player> players;
     private Map<Integer, Monster> monsters;
     private Tcp tcp;
-    private BlockingQueue<Hit> hitQueue;
+    private CopyOnWriteArrayList<Hit> hitArrayList;
 
-    public Udp(String url, int port_, Tcp tcp_, BlockingQueue<Hit> hitQueue_,Map<Short, Player> p, Map<Integer, Monster> m) throws SocketException, UnknownHostException {
+    public Udp(String url, int port_, Tcp tcp_, CopyOnWriteArrayList<Hit> hitArrayList_, Map<Short, Player> p, Map<Integer, Monster> m) throws SocketException, UnknownHostException {
         socket = new DatagramSocket(0);
         port = port_;
         tcp = tcp_;
-        hitQueue = hitQueue_;
+        hitArrayList = hitArrayList_;
         address = InetAddress.getByName(url);
-        players=p;
-        monsters=m;
+        players = p;
+        monsters = m;
         socket.setSoTimeout(1000);
     }
 
@@ -47,10 +45,9 @@ public class Udp extends Thread {
             DatagramPacket packet = new DatagramPacket(buf, buf.length);
             try {
                 socket.receive(packet);
-            }catch (SocketTimeoutException e) {
+            } catch (SocketTimeoutException e) {
                 continue;
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
             String received = new String(
@@ -60,8 +57,8 @@ public class Udp extends Thread {
             String[] cmd = received.split(" ");
             switch (cmd[0]) {
                 case "X":
-                    if( players.get(Short.parseShort(cmd[1]))!=null)
-                    players.get(Short.parseShort(cmd[1])).update(cmd);
+                    if (players.get(Short.parseShort(cmd[1])) != null)
+                        players.get(Short.parseShort(cmd[1])).update(cmd);
                     else {
                         try {
                             tcp.send(Command.create().add('P').add(cmd[1]).getMessage());
@@ -71,8 +68,8 @@ public class Udp extends Thread {
                     }
                     break;
                 case "Y":
-                    if( monsters.get(Integer.parseInt(cmd[1]))!=null)
-                    monsters.get(Integer.parseInt(cmd[1])).update(cmd);
+                    if (monsters.get(Integer.parseInt(cmd[1])) != null)
+                        monsters.get(Integer.parseInt(cmd[1])).update(cmd);
                     else {
                         try {
                             tcp.send(Command.create().add('M').add(cmd[1]).getMessage());
@@ -83,12 +80,8 @@ public class Udp extends Thread {
                     break;
                 case "H":
                     //todo hit
-                    try {
-                        hitQueue.put(new Hit(Short.parseShort(cmd[1]),
-                                Short.parseShort(cmd[2]), Integer.parseInt(cmd[3])));
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+                    hitArrayList.add(new Hit(Short.parseShort(cmd[1]),
+                            Short.parseShort(cmd[2]), Integer.parseInt(cmd[3])));
                     break;
 
             }
