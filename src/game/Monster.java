@@ -5,7 +5,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.image.Image;
 
 public class Monster {
-    //todo
     private int id;
     private short x,y;
     private int health;

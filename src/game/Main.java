@@ -63,7 +63,7 @@ public class Main extends Application {
             Scene sc = new Scene(root,primaryStage.getWidth(),primaryStage.getHeight());
             primaryStage.setScene(sc);
             ls.setServerInfo(serveraddr,port,NotAnAnchorPane,canvas,primaryStage);
-            ls.setDaemon(true);
+            //ls.setDaemon(true);
             ls.start();
         } catch (Exception e) {
             e.printStackTrace();

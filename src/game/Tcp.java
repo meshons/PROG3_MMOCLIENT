@@ -40,7 +40,7 @@ public class Tcp extends Thread {
         String[] splitted = String.valueOf(re).split(" ");
         if (splitted[0].equals("nope"))
             return false;
-        return true;//todo wtf???
+        return true;
     }
 
     public User Login(String username, String password) throws NoSuchAlgorithmException, IOException {
@@ -59,12 +59,18 @@ public class Tcp extends Thread {
     }
 
     public void Logout(User u) throws IOException {
-        String message = Command.create().add('1').add(u.getId()).getMessage();
-        outgoing.write(message.getBytes(StandardCharsets.UTF_8));
+        send(Command.create().add('1').add(u.getId()).getMessage());
+        String c = " ";
+        while(!c.equals("1 ")) {
+            c = incoming.readLine();
+            if(c==null)c=" ";
+        }
+        socket.close();
     }
 
-    public void send(String message) throws IOException {
+    public synchronized void  send(String message) throws IOException {
         outgoing.write(message.getBytes());
+        outgoing.flush();
     }
 
     public void stopit() {

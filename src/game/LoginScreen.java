@@ -69,7 +69,6 @@ public class LoginScreen extends Thread {
 
 
     public void close() {
-        //todo
         run = false;
         if (g != null) g.stopit();
     }
@@ -187,12 +186,11 @@ public class LoginScreen extends Thread {
                 }
             }
             g = new Game(canvas,stage,udp,user, run, players, monsters, hitQueue, players.get(user.getId()));
-           g.setDaemon(true);
+           //g.setDaemon(true);
             g.start();
 
             try {
                 g.join();
-
                 udp.stopit();
                 udp.join();
                 tcp.stopit();

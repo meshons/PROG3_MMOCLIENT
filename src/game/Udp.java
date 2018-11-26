@@ -79,7 +79,6 @@ public class Udp extends Thread {
                     }
                     break;
                 case "H":
-                    //todo hit
                     hitArrayList.add(new Hit(Short.parseShort(cmd[1]),
                             Short.parseShort(cmd[2]), Integer.parseInt(cmd[3])));
                     break;

@@ -193,7 +193,6 @@ public class Player {
                 }
                 break;
             case Attack:
-                //todo pizza
                 gc.setFill(Color.BLUE);
                 switch (dir) {
                     case NORTH:

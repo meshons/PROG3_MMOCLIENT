@@ -2,6 +2,8 @@ package game;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -17,6 +19,7 @@ import javafx.scene.text.TextAlignment;
 import javafx.scene.paint.*;
 import javafx.stage.Stage;
 import javafx.scene.image.WritableImage;
+import javafx.scene.Cursor;
 import javax.imageio.ImageIO;
 
 
@@ -103,8 +106,6 @@ public class Game extends Thread {
      * P betűvel printscreen-t csinál
      */
     private EventHandler<KeyEvent> keyPress = event -> {
-        //todo make it better
-
         try {
             switch (event.getCode()) {
                 case W:
@@ -136,8 +137,12 @@ public class Game extends Thread {
                     run =false;
                     break;
                 case P:
+                    Date dNow = new Date( );
+                    SimpleDateFormat ft =
+                            new SimpleDateFormat("yyyyMMdd'-'hhmmss");
+
                     WritableImage image = stage.getScene().snapshot(null);
-                    File file = new File("chart.png");
+                    File file = new File("screenshot-"+ft.format(dNow)+".png");
                     try {
                         ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", file);
                     } catch (IOException e) {
@@ -173,6 +178,7 @@ public class Game extends Thread {
      */
     public void run() {
         GraphicsContext gc = canvas.getGraphicsContext2D();
+        canvas.setCursor(Cursor.NONE);
 
         Image grass = new Image(this.getClass().getResourceAsStream("/fu.png"));
         Image grass2 = new Image(this.getClass().getResourceAsStream("/fu2.png"));
@@ -232,7 +238,6 @@ public class Game extends Thread {
                         p.setAnimationpercent(p.getAnimationpercent() - 1.0);
                 }
 
-                //todo responsive!!
                 int row = (int)(stage.getHeight()/w+3);
                 if(row%2==0)row++;
                 int column = (int)(stage.getWidth()/h+3);
